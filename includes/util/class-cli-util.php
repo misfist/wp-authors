@@ -113,10 +113,17 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
         private function create_term( $user ) {
             $args = array(
                 'slug'   => $user['slug'],
+                'description'   => $user['description'],
             );
+
+            if( isset( $user['first_name'] ) && isset( $user['last_name'] ) ) {
+                $term_name = trim( $user['first_name'] ) . ' ' . trim( $user['last_name'] );
+            } else {
+                $term_name = $user['name'];
+            }
         
             $term = wp_insert_term( 
-                $user['name'], 
+                $term_name, 
                 $this->taxonomy, 
                 $args 
             );
@@ -128,7 +135,6 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
                     'last_name'     => $user['last_name'],
                     'nickname'      => $user['nickname'],
                     'email'         => $user['user_email'],
-                    'description'   => $user['description'],
                     'user'          => array(
                         'name'      => $user['name'],
                         'id'        => $user['id']
@@ -139,7 +145,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
                     add_term_meta( $term['term_id'], $key, $value );
                 }
 
-                WP_CLI::success( "{$term['term_id']} was created" );
+                WP_CLI::success( "{$term_name} was created" );
                 
             } else {
                 WP_CLI::log( "{$user['name']} wasn't created" );
