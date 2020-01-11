@@ -46,11 +46,15 @@ class WP_Authors_Taxonomy {
 
     protected $fields;
 
+    protected $slug;
+
     /**
      * Construct
      */
     public function __construct() {
         $this->taxonomy = 'guest_author';
+
+        $this->slug = apply_filters( 'wp_authors_slug', 'authors' );
 
         /**
          * @use `wp_authors_post_types` filter to modify post types
@@ -87,6 +91,8 @@ class WP_Authors_Taxonomy {
         add_action( 'after_setup_theme', array( $this, 'load_dependencies' ) );
 
         add_action( 'init', array( $this, 'register_taxonomy' ), 0 );
+
+        add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
 
         add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 
@@ -161,6 +167,7 @@ class WP_Authors_Taxonomy {
             'with_front'                 => true,
             'hierarchical'               => false,
         );
+
         $args = array(
             'labels'                     => $labels,
             'hierarchical'               => false,
@@ -169,11 +176,11 @@ class WP_Authors_Taxonomy {
             'show_admin_column'          => true,
             'show_in_nav_menus'          => false,
             'show_tagcloud'              => true,
-            'query_var'                  => 'authors',
+            'query_var'                  => $this->slug,
             'rewrite'                    => $rewrite,
             'capabilities'               => $this->capabilities,
             'show_in_rest'               => true,
-            'rest_base'                  => 'authors',
+            'rest_base'                  => $this->slug,
         );
 
         /**
@@ -182,6 +189,19 @@ class WP_Authors_Taxonomy {
          * @see https://developer.wordpress.org/reference/functions/register_taxonomy/
          */
         register_taxonomy( $this->taxonomy, $this->post_types, apply_filters( 'wp-authors-taxonomy-args', $args ) );
+    }
+
+    /**
+     * Add Query Var
+     * 
+     * @link https://developer.wordpress.org/reference/hooks/query_vars/
+     *
+     * @param array $query_vars
+     * @return array $query_vars
+     */
+    public function add_query_vars( $query_vars ) {
+        $query_vars[] = 'last_name';
+        return $query_vars;
     }
 
     /**
