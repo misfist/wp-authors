@@ -45,3 +45,8 @@ define( 'WP_AUTHORS_DIR_URI', plugin_dir_url( __FILE__ ) );
 require_once( 'includes/class-wp-authors.php' );
 
 require_once( 'includes/util/class-cli-util.php' );
+
+/**
+ * Block Initializer.
+ */
+// require_once( 'blocks/src/init.php' );

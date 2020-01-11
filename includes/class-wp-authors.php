@@ -112,6 +112,10 @@ class WP_Authors_Taxonomy {
 
         add_filter( "manage_{$this->taxonomy}_custom_column", array( $this, 'add_column_content' ), 10, 3 );
 
+        add_action( "{$this->taxonomy}_edit_form_fields", array( $this, 'visual_description_editor' ), 10, 2 );
+
+        add_action( 'admin_head-edit-tags.php', array( $this, 'visual_description_editor_style' ) );
+
         // $this->apply_sortable_columns();
     }
 
@@ -496,6 +500,49 @@ class WP_Authors_Taxonomy {
         foreach( $this->post_types as $post_type ) {
             add_filter( "manage_edit-{$post_type}_sortable_columns", array( $this, 'sortable_column' ) );
         }
+    }
+
+    /**
+     * Display wysiwyg editor for description field
+     *
+     * @param obj $term
+     * @param string $taxonomy
+     * @return void
+     */
+    public function visual_description_editor( $term, $taxonomy ) {
+        $settings = array(
+            'textarea_name' => 'description',
+            'textarea_rows' => 6,
+            'editor_class'  => 'i18n-multilingual',
+            'media_buttons' => false
+        );
+        ?>
+        <tr class="form-field term-description-wrap">
+            <th scope="row"><label for="description"><?php _e( 'Description', 'wp-authors' ); ?></label></th>
+            <td>
+                <?php
+                wp_editor( htmlspecialchars_decode( $term->description ), 'html-tag-description', $settings );
+                ?>
+                <p class="description"><?php _e( 'The description is not prominent by default; however, some themes may show it.', 'wp-author' ); ?></p>
+            </td>
+            <script>
+                jQuery('textarea#description').closest('.form-field').remove();
+            </script>
+        </tr>
+        <?php
+    }
+
+    /**
+     * Add Styling to fix display
+     *
+     * @return void
+     */
+    public function visual_description_editor_style() {
+        echo '<style>',
+		' .quicktags-toolbar input { width: auto; }',
+		' .column-description img { max-width: 100%; }',
+		' .term-description-wrap #post-status-info { width: auto; }',
+		' </style>';
     }
 
     public function register_block() {}
