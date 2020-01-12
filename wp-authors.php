@@ -49,4 +49,4 @@ require_once( 'includes/util/class-cli-util.php' );
 /**
  * Block Initializer.
  */
-// require_once( 'blocks/src/init.php' );
+require_once( 'blocks/src/init.php' );
