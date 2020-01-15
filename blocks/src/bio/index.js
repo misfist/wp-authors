@@ -46,14 +46,19 @@ registerBlockType( 'wp-authors/bio', {
 
         return {
 			terms: select( 'core' ).getEntityRecords( 'taxonomy', 'guest_author', query ),
+			author_ids
         };
-    } )( ( { terms, className } ) => {
+    } )( ( { terms, author_ids, className } ) => {
+		if( author_ids.length === 0 ) {
+			return 'Please select author(s).'
+		}
+
         if ( ! terms ) {
             return 'Loading...';
         }
  
         if ( terms && terms.length === 0 ) {
-            return 'No authors';
+            return 'No authors.';
         }
  
         return (
@@ -62,9 +67,6 @@ registerBlockType( 'wp-authors/bio', {
 					return (
 						<div key={ index } className="author-bio">
 							<div className="author-name author-title-wrapper">
-								<div className="author-avatar vcard">
-									{  __( 'Avatar', 'wp-authors' ) }
-								</div>
 								<h2 className="author-title heading-size-4">
 									{ term.name }
 								</h2>
