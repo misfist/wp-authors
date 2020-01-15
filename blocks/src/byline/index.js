@@ -48,8 +48,13 @@ registerBlockType( 'wp-authors/byline', {
 
         return {
 			terms: select( 'core' ).getEntityRecords( 'taxonomy', 'guest_author', query ),
+			author_ids
         };
-    } )( ( { terms, className } ) => {
+    } )( ( { terms, author_ids, className } ) => {
+		if( author_ids.length === 0 ) {
+			return 'Please select author(s).'
+		}
+
         if ( ! terms ) {
             return 'Loading...';
         }
