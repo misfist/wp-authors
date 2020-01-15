@@ -9,13 +9,16 @@
  *
  * CSS for both Frontend+Backend.
  */
-.wp-block-cgb-block-byline {
-  background: orangered;
-  border: 0.2rem solid #292929;
-  color: #292929;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem; }
+.wp-block-wp-authors-byline {
+  list-style: none; }
+  .wp-block-wp-authors-byline:before {
+    content: 'By\00a0'; }
+  .wp-block-wp-authors-byline li {
+    display: inline-block; }
+  .wp-block-wp-authors-byline li + li:before {
+    content: ',\00a0'; }
+  .wp-block-wp-authors-byline li + li:last-child:before {
+    content: '\00a0 and\00a0'; }
 /**
  * #.# Common SCSS
  *
@@ -27,10 +30,3 @@
  *
  * CSS for both Frontend+Backend.
  */
-.wp-block-cgb-block-byline {
-  background: orangered;
-  border: 0.2rem solid #292929;
-  color: #292929;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem; }

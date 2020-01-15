@@ -4,11 +4,27 @@
  * CSS for both Frontend+Backend.
  */
 
-.wp-block-cgb-block-byline  {
-  background: $red;
-  border: 0.2rem solid $black;
-  color: $black;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem;
+ .wp-block-wp-authors-byline  {
+  list-style: none;
+
+  &:before {
+    content: 'By\00a0';
+  }
+
+  li {
+   display: inline-block;
+  }
+
+  li + li {
+    &:before {
+      content: ',\00a0';
+    }
+
+    &:last-child {
+      &:before {
+        content: '\00a0 and\00a0';
+      }
+    }
+  }
+
 }
