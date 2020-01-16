@@ -159,24 +159,22 @@ function wp_authors_bio_callback() {
 	<div class="wp-block-wp-authors-bio">
 	<?php
 	foreach( $term_list as $term ) : ?>
-		<div class="author-bio">
-			<div class="author-name author-title-wrapper">
-				<?php if( $image = get_term_meta( $term->term_id, 'image', true ) ) : ?>
-					<div class="author-avatar vcard">
-						<?php echo wp_get_attachment_image( $image, 'thumbnail' );  ?>
-					</div>
-				<?php endif; ?>
-				<h2 class="author-title heading-size-4">
-					<?php echo esc_html( $term->name ); ?>
-				</h2>
-			</div><!-- .author-name -->
-			<div class="author-description">
-				<?php echo wpautop( $term->description ); ?>
-				<a class="author-link" href="<?php echo esc_url( get_term_link( $term->term_id ) ); ?>" rel="author">
-					<?php _e( 'View Archive <span aria-hidden="true">&rarr;</span>', 'wp-authors' ); ?>
-				</a>
-			</div><!-- .author-description -->
-		</div><!-- .author-bio -->
+		<div class="author-name author-title-wrapper">
+			<?php if( $image = get_term_meta( $term->term_id, 'image', true ) ) : ?>
+				<div class="author-avatar vcard">
+					<?php echo wp_get_attachment_image( $image, 'thumbnail' );  ?>
+				</div>
+			<?php endif; ?>
+			<h2 class="author-title heading-size-4">
+				<?php echo esc_html( $term->name ); ?>
+			</h2>
+		</div><!-- .author-name -->
+		<div class="author-description">
+			<?php echo wpautop( $term->description ); ?>
+			<a class="author-link" href="<?php echo esc_url( get_term_link( $term->term_id ) ); ?>" rel="author">
+				<?php _e( 'View Archive <span aria-hidden="true">&rarr;</span>', 'wp-authors' ); ?>
+			</a>
+		</div><!-- .author-description -->
 	<?php
 	endforeach; ?>
 	</div><!-- .wp-block-wp-authors-bio -->
