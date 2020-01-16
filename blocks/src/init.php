@@ -171,7 +171,7 @@ function wp_authors_bio_callback() {
 				</h2>
 			</div><!-- .author-name -->
 			<div class="author-description">
-				<?php echo apply_filters( 'the_content', $term->description ); ?>
+				<?php echo wpautop( $term->description ); ?>
 				<a class="author-link" href="<?php echo esc_url( get_term_link( $term->term_id ) ); ?>" rel="author">
 					<?php _e( 'View Archive <span aria-hidden="true">&rarr;</span>', 'wp-authors' ); ?>
 				</a>
