@@ -13,8 +13,14 @@ const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 const { withSelect } = wp.data;
 
-console.log( 'loaded' );
-
+const blockAttributes = {
+	'showAvatar': {
+		'type': 'boolean'
+	},
+	'showLink': {
+		'type': 'boolean'
+	}
+}
 /**
  * Register: aa Gutenberg Block.
  *
@@ -37,6 +43,7 @@ registerBlockType( 'wp-authors/bio', {
 		__( 'author', 'wp-author' ),
 		__( 'card', 'wp-author' ),
 	],
+	attributes: blockAttributes,
  
     edit: withSelect( ( select ) => {
 		const author_ids = select( 'core/editor' ).getEditedPostAttribute( 'authors' );
@@ -50,15 +57,15 @@ registerBlockType( 'wp-authors/bio', {
         };
     } )( ( { terms, author_ids, className } ) => {
 		if( author_ids.length === 0 ) {
-			return 'Please select author(s).'
+			return __( 'Please select author(s).', 'wp-authors' );
 		}
 
         if ( ! terms ) {
-            return 'Loading...';
+            return __( 'Loading...', 'wp-authors' );
         }
  
         if ( terms && terms.length === 0 ) {
-            return 'No authors.';
+            return __( 'No authors.', 'wp-authors' );
         }
  
         return (

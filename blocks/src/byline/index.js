@@ -52,15 +52,15 @@ registerBlockType( 'wp-authors/byline', {
         };
     } )( ( { terms, author_ids, className } ) => {
 		if( author_ids.length === 0 ) {
-			return 'Please select author(s).'
+			return __( 'Please select author(s).', 'wp-authors' );
 		}
 
         if ( ! terms ) {
-            return 'Loading...';
+            return __( 'Loading...', 'wp-authors' );
         }
  
         if ( terms && terms.length === 0 ) {
-            return 'No authors';
+            return __( 'No authors', 'wp-authors' );
         }
  
         return (
