@@ -10,7 +10,7 @@
  *
  * @link              https://patrizialutz.tech
  * @since             1.0.0
- * @package           Wp_Authors
+ * @package           WP_Authors
  *
  * @wordpress-plugin
  * Plugin Name:       WordPress Authors
@@ -39,14 +39,102 @@ define( 'WP_AUTHORS_VERSION', '1.0.0' );
 define( 'WP_AUTHORS_DIR', dirname( __FILE__ ) );
 define( 'WP_AUTHORS_DIR_URI', plugin_dir_url( __FILE__ ) );
 
-/**
- * Dependencies
- */
-require_once( 'includes/class-wp-authors.php' );
 
-require_once( 'includes/util/class-cli-util.php' );
+class WP_Authors_Plugin {
+
+	/**
+	 * Instance of the class.
+	 * @var object
+	 */
+    private static $instance;
+    
+    /**
+	 * Plugin Dir
+	 * @var var
+	 */
+    public $plugin_dir;
+
+    /**
+	 * Plugin Dir URI
+	 * @var var
+	 */
+    public $plugin_dir_uri;
+
+	/**
+	 * Class Instance.
+	 * @return WP_Authors_Plugin
+	 */
+	public static function instance() {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WP_Authors_Plugin ) ) {
+			self::$instance = new WP_Authors_Plugin();
+			self::$instance->init();
+		}
+		return self::$instance;
+    }
+    
+    /**
+	 * Initialize
+	 *
+	 * @return void
+	 */
+	function init() {
+        $this->plugin_dir = dirname( __FILE__ );
+        $this->plugin_dir_uri = plugin_dir_url( __FILE__ );
+        $this->dependencies();
+    }
+
+	/**
+	 * Hooks
+	 *
+	 * @return void
+	 */
+	static function hooks() {
+        flush_rewrite_rules();
+    }
+
+	/**
+	 * Dependencies
+	 *
+	 * @return void
+	 */
+	function dependencies() {		
+		include_once( $this->plugin_dir . '/includes/class-wp-authors.php' 		);
+		include_once( $this->plugin_dir . '/includes/util/class-cli-util.php' 	);
+
+		include_once( $this->plugin_dir . '/blocks/src/init.php'					);
+	}
+	
+	/**
+	 * Get Plugin Directory Path
+	 *
+	 * @return string $this->plugin_dir
+	 */
+	static function plugin_dir() {
+		return $this->plugin_dir;
+	}
+
+	/**
+	 * Get Plugin Directory URI
+	 *
+	 * @return string $plugin_dir_uri
+	 */
+	static function plugin_dir_uri() {
+		return $this->plugin_dir_uri;
+	}
+
+}
 
 /**
- * Block Initializer.
+ * The function provides access to the class methods.
+ *
+ * Use this function like you would a global variable, except without needing
+ * to declare the global.
+ *
+ * @return object
  */
-require_once( 'blocks/src/init.php' );
+function wp_authors_plugin_init() {
+	return WP_Authors_Plugin::instance();
+}
+add_action( 'plugins_loaded' , 'wp_authors_plugin_init' );
+
+register_activation_hook( __FILE__, array( 'WP_Authors_Plugin', 'hooks' ) );
