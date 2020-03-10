@@ -5,7 +5,7 @@
  *
  * @link              https://patrizialutz.tech
  * @since             1.0.0
- * @package           Wp_Authors
+ * @package           WP_Authors
  *
  */
 

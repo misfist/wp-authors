@@ -2,7 +2,7 @@
 /**
  * Class SampleTest
  *
- * @package Wp_Authors
+ * @package WP_Authors
  */
 
 /**
