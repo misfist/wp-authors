@@ -76,10 +76,10 @@ function wp_authors_block_assets() { // phpcs:ignore
 	 */
 	register_block_type(
 		'wp-authors/byline', array(
-			'style'         => 'wp-authors-style-css',
-			'editor_script' => 'wp-authors-block-js',
-			'editor_style'  => 'wp-authors-block-editor-css',
-			'render_callback' => 'wp_authors_byline_callback',
+			'style'         	=> 'wp-authors-style-css',
+			'editor_script' 	=> 'wp-authors-block-js',
+			'editor_style'  	=> 'wp-authors-block-editor-css',
+			'render_callback' 	=> 'wp_authors_byline_render',
 		)
 	);
 
@@ -95,10 +95,10 @@ function wp_authors_block_assets() { // phpcs:ignore
 	 */
 	register_block_type(
 		'wp-authors/bio', array(
-			'style'         => 'wp-authors-style-css',
-			'editor_script' => 'wp-authors-block-js',
-			'editor_style'  => 'wp-authors-block-editor-css',
-			'render_callback' => 'wp_authors_bio_callback',
+			'style'         	=> 'wp-authors-style-css',
+			'editor_script' 	=> 'wp-authors-block-js',
+			'editor_style'  	=> 'wp-authors-block-editor-css',
+			'render_callback' 	=> 'wp_authors_bio_render',
 		)
 	);
 }
@@ -113,7 +113,7 @@ add_action( 'init', 'wp_authors_block_assets' );
  * @param string $content
  * @return string
  */
-function wp_authors_byline_callback() {
+function wp_authors_byline_render() {
 	$post_id = get_the_ID();
 	$taxonomy = 'guest_author';
 	$term_list = wp_get_post_terms( $post_id, $taxonomy, array( 'fields' => 'all' ) );
@@ -146,7 +146,7 @@ function wp_authors_byline_callback() {
  *
  * @return string
  */
-function wp_authors_bio_callback() {
+function wp_authors_bio_render() {
 	$post_id = get_the_ID();
 	$taxonomy = 'guest_author';
 	$term_list = wp_get_post_terms( $post_id, $taxonomy, array( 'fields' => 'all' ) );
@@ -171,9 +171,11 @@ function wp_authors_bio_callback() {
 		</div><!-- .author-name -->
 		<div class="author-description">
 			<?php echo wpautop( $term->description ); ?>
+			<?php if( !is_tax( $taxonomy, $term->term_id ) ) : ?>
 			<a class="author-link" href="<?php echo esc_url( get_term_link( $term->term_id ) ); ?>" rel="author">
 				<?php _e( 'View Archive <span aria-hidden="true">&rarr;</span>', 'wp-authors' ); ?>
 			</a>
+			<?php endif; ?>
 		</div><!-- .author-description -->
 	<?php
 	endforeach; ?>
