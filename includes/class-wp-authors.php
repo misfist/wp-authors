@@ -5,7 +5,7 @@
  *
  * @link              https://patrizialutz.tech
  * @since             1.0.0
- * @package           WP_Authors
+ * @package           Wp_Authors
  *
  */
 
@@ -235,13 +235,20 @@ class WP_Authors_Taxonomy {
      * @since 1.0.0
      * 
      * @see https://developer.wordpress.org/reference/functions/remove_submenu_page/
+     * @see https://developer.wordpress.org/reference/functions/get_object_taxonomies/
      *
      * @return void
      */
     public function remove_admin_submenus() {
         if( !empty( $this->post_types ) ) {
             foreach( $this->post_types as $post_type ) {
-                remove_submenu_page( "edit.php?post_type={$post_type}", "edit-tags.php?taxonomy={$this->taxonomy}&amp;post_type={$post_type}" );
+                /**
+                 * Check if post type supports `guest_author` taxonomy
+                 */
+                $taxonomies = get_object_taxonomies( $post_type );
+                if( in_array( $this->taxonomy, $taxonomies ) ) {
+                    remove_submenu_page( "edit.php?post_type={$post_type}", "edit-tags.php?taxonomy={$this->taxonomy}&amp;post_type={$post_type}" );
+                }                
            }
         }
 
