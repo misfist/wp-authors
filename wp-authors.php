@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       WordPress Authors
  * Plugin URI:        https://github.com/misfist/wp-authors
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Adds the ability to add multiple authors to a post
  * Version:           1.0.0
  * Author:            Pea
  * Author URI:        https://patrizialutz.tech
